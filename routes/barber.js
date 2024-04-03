@@ -4,7 +4,7 @@ const {
   getBlogs,
   getBlogsById,
   deleteBlogsById,
-} = require("../controllers/blogController");
+} = require("../controllers/barberController");
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -37,7 +37,12 @@ var upload = multer({
 
 const router = require("express").Router();
 
-router.post("/create", upload.single("avatar"), createBlog);
+router.post(
+  "/create",
+  upload.single("avatar"),
+  checkTokenAndRole("admin"),
+  createBlog
+);
 router.get("/get", getBlogs);
 router.get("/get/:id", getBlogsById);
 router.delete("/delete/:id", deleteBlogsById);

@@ -10,6 +10,9 @@ exports.register = async (req, res) => {
     const registerUser = new auth({ email, password: hashpassword });
     await registerUser.save();
 
+    const userProfile = new Profile({ userId: registerUser.id }); // Assuming userId is the field that associates the profile with the user
+    await userProfile.save();
+
     res.status(200).json({
       success: true,
       message: "register user successfully",
